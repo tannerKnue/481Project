@@ -11,12 +11,25 @@ class profiles(db.Model):
     age = db.Column(db.Integer, nullable=False)
     gender = db.Column(db.String(1), nullable=False)
     preference = db.Column(db.String(1), nullable=False)
-    email = db.Column(db.String(50), nullable=False)
-    username = db.Column(db.String(20), nullable=False)
+    bio = db.Column(db.String(600), nullable=False)
+    email = db.Column(db.String(50), nullable=False, unique=True)
+    username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(20), nullable=False)
     def __repr__(self):
         return '<Name %r>' %self.id
 
+    def to_json(self):
+        return {
+            "firstName":self.firstName,
+            "lastName":self.lastName,
+            "age":self.age,
+            "gender":self.gender,
+            "preference":self.preference,
+            "bio":self.bio,
+            "email":self.email,
+            "username":self.username,
+            "password":self.password   
+        }
 users = []
 
 @app.route("/")
@@ -29,15 +42,29 @@ def registerPage():
 
 @app.route("/profile", methods=["POST"])
 def outputProfile():
+    print("\n\n",request.form.get("firstName"),"\n\n")
     firstName = request.form.get("firstName")
     lastName = request.form.get("lastName")
     age = request.form.get("age")
     gender = request.form.get("gender")
     preference = request.form.get("preference")
+    bio = request.form.get("bio")
     email = request.form.get("email")
     username = request.form.get("username")
     password = request.form.get("password")
-    users.append(f"{firstName} {lastName} {age} {gender} {preference} {email} {username} {password}")
+    user = profiles(
+        firstName=firstName,
+        lastName=lastName,
+        age=age,
+        gender=gender,
+        preference=preference,
+        bio=bio,
+        email=email,
+        username=username,
+        password=password
+    )
+    db.session.add(user)
+    db.session.commit()
     return render_template("profile.html", firstName=firstName, lastName=lastName, age=age, gender=gender, preference=preference, email=email, username=username)
 
 @app.route("/home")
@@ -55,6 +82,16 @@ def messagesPage():
 @app.route("/profile")
 def profilePage():
     return render_template("profile.html")
+
+@app.route("/login",methods=["POST"])
+def login():
+    username = request.form.get("username")
+    password = request.form.get("password")
+    user = profiles.query.filter(profiles.username == username).first()
+    if password == user.password:
+        return render_template("profile.html",firstName=user.firstName, lastName=user.lastName, age=user.age, gender=user.gender, preference=user.preference, email=user.email, username=user.username)
+    
+    return user.to_json()
 
 if __name__ == "__main__":
     app.run()

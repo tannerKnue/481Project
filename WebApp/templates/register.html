@@ -11,24 +11,25 @@
             <input type="text" placeholder="Last Name" id="lastName" name="lastName"required><br>
             <input type="text" placeholder="Age" id="age" name="age"required><br>
             <div class="select">
-                <select required>
+                <select required name="gender">
                     <option class="hide">Gender</option>
-                    <option name="gender" value='m' id="male">Male</option>
-                    <option name="gender" value='f' id="female">Female</option>
+                    <option name="gender" value='m' id="gender">Male</option>
+                    <option name="gender" value='f' id="gender">Female</option>
                 </select>
             </div>
             
             <div class="select">
-                <select required>
+                <select required name="preference">
                     <option class="hide">Preference</option>
-                    <option name="preference" value='m' id="male">Male</option>
-                    <option name="preference" value='f' id="female">Female</option>
+                    <option name="preference" value='m' id="preference">Male</option>
+                    <option name="preference" value='f' id="preference">Female</option>
                 </select>
             </div>
 
             <input type="text" placeholder="Email" id="email" name="email" required><br>
             <input type="text" placeholder="Username" id="username" name="username" required><br>
             <input type="password" placeholder="Password" id="password" name="password" required><br>
+            <textarea name="bio" id="bio" placeholder="Bio" cols="39" rows="10" style="padding:8px"></textarea><br>
             <button class="sign-button" type="submit">Sign up </button>
             <p class="sign-prompt">Already have an account?</p>
             <button class="sign-button"><a href="/">Sign in</a></button>
