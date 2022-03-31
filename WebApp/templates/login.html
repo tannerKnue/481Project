@@ -7,11 +7,12 @@
     <form class="login-form" action="/login" method="POST">
       <h1>BlindFold</h1>
       <h2>Sign in</h2>
-      <input type="text" name="username" placeholder="Username" required><br>
-      <input type="password" name="password" placeholder="Password" required><br>
-      <button class="sign-button"><a href="/home">Sign in</a></button>
-      <p class="sign-prompt">Don't have an account?</p>
-      <button class="sign-button"><a href="/register">Sign up</a></button>
+
+      {{ form.hidden_tag() }}
+      {{ form.username }}
+      {{ form.password }}
+      {{ form.submit }}
+
     </form>
 
   </div>
